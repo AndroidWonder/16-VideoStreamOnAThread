@@ -3,7 +3,6 @@ package com.course.example.videostreamonathread;
 import android.app.ProgressDialog;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
