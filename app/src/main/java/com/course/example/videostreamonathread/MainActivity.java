@@ -14,6 +14,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ProgressDialog pDialog;
     private VideoView videoview;
+    private MediaController mediacontroller;
 
     // Insert your Video URL
     //String VideoURL = "http://www.androidbegin.com/tutorial/AndroidCommercial.3gp";
@@ -42,39 +43,43 @@ public class MainActivity extends AppCompatActivity {
         // Show progressbar
         pDialog.show();
 
-        try {
-            // Start the MediaController
-            MediaController mediacontroller = new MediaController(
-                    MainActivity.this);
-            mediacontroller.setAnchorView(videoview);
-            // Get the URL from String VideoURL
-            Uri video = Uri.parse(VideoURL);
-            videoview.setMediaController(mediacontroller);
-            videoview.setVideoURI(video);
+        //start thread
+        Thread t = new Thread(background);
+        t.start();
 
-        } catch (Exception e) {
-            Log.e("Error", e.getMessage());
-            e.printStackTrace();
-        }
-
-        videoview.requestFocus();
-
-
-        //callback happens when the media source is ready for playback
-        videoview.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            // Close the progress bar and play the video
-            public void onPrepared(MediaPlayer mp) {
-                pDialog.dismiss();
-                Thread t = new Thread(background);
-                t.start();
-            }
-
-        });
     }
 
     Runnable background = new Runnable() {
         public void run() {
-            videoview.start();
+
+            try {
+                //create the MediaController
+                mediacontroller = new MediaController(
+                        MainActivity.this);
+
+                mediacontroller.setAnchorView(videoview);
+
+                // Get the URL from String VideoURL
+                Uri video = Uri.parse(VideoURL);
+                videoview.setMediaController(mediacontroller);
+                videoview.setVideoURI(video);
+
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+
+            //callback happens when the media source is ready for playback
+            videoview.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                // Close the progress bar and play the video
+                public void onPrepared(MediaPlayer mp) {
+                    pDialog.dismiss();
+                    videoview.start();
+                }
+
+            });
+
+
         }
     };
 }
