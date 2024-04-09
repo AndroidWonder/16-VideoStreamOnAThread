@@ -1,13 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion '28.0.3'
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.course.example.videostreamonathread"
-        minSdkVersion 17
-        targetSdkVersion 26
+        minSdkVersion 26
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0"
     }
@@ -17,6 +16,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    namespace 'com.course.example.videostreamonathread'
 }
 
 dependencies {
